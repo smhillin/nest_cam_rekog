@@ -1,34 +1,3 @@
-'''
-client id#  ae74622c-81cb-410d-a4a0-ab94c0e03a2e
-client secret t0pZlh93Bprgn6JUvOJofca6F
-auth url   https://home.nest.com/login/oauth2?client_id=ae74622c-81cb-410d-a4a0-ab94c0e03a2e&state=STATE
-
- https://home.nest.com/cameras/ae74622c-81cb-410d-a4a0-ab94c0e03a2e?auth=c.tTwDnxdnToHZrpWnhk5iH4q3JEebhvbeLqitUnsbyBgSupaWkrYlvX1b4374SwVi19akENZsFCmi8RG3AhiquFSpeTjtxtC93rIL1DFoLd69sWoJcPTbh0XXFv2esuVqJmP9eachNAw2wN7J
- https://home.nest.com/cameras/oauth2?client_id=ae74622c-81cb-410d-a4a0-ab94c0e03a2e&state=STATE
-
-
-
-
-
-curl -v -L -H "Content-Type: application/json" -H "Authorization:  Bearer c.tTwDnxdnToHZrpWnhk5iH4q3JEebhvbeLqitUnsbyBgSupaWkrYlvX1b4374SwVi19akENZsFCmi8RG3AhiquFSpeTjtxtC93rIL1DFoLd69sWoJcPTbh0XXFv2esuVqJmP9eachNAw2wN7J" -X GET "https://developer-api.nest.com"
-
-
-curl -X POST "https://api.home.nest.com/oauth2/access_token?client_id=ae74622c-81cb-410d-a4a0-ab94c0e03a2e&;code=2HNWPWSP&;client_secret=t0pZlh93Bprgn6JUvOJofca6F&;grant_type=authorization_code"
-
-"access_token":"c.tTwDnxdnToHZrpWnhk5iH4q3JEebhvbeLqitUnsbyBgSupaWkrYlvX1b4374SwVi19akENZsFCmi8RG3AhiquFSpeTjtxtC93rIL1DFoLd69sWoJcPTbh0XXFv2esuVqJmP9eachNAw2wN7J","expires_in":315360000}
-
-curl -L https://developer-api.nest.com/devices/cameras\?auth\=c.tTwDnxdnToHZrpWnhk5iH4q3JEebhvbeLqitUnsbyBgSupaWkrYlvX1b4374SwVi19akENZsFCmi8RG3AhiquFSpeTjtxtC93rIL1DFoLd69sWoJcPTbh0XXFv2esuVqJmP9eachNAw2wN7J
-
-"device_id":"aKftwtb142trLSdvl87kPZxJokmXYmriK-jpahONPvB9Veuc8C1zMA",
-"structure_id":"fuKIvBdMtxwTut_mDJiyAOL1LMm80TcWFoPQEnq94kU-3koZlc9D5Q",
-
-curl -X GET "https://developer-api.nest.com/devices/cameras/aKftwtb142trLSdvl87kPZxJokmXYmriK-jpahONPvB9Veuc8C1zMA?auth="c.tTwDnxdnToHZrpWnhk5iH4q3JEebhvbeLqitUnsbyBgSupaWkrYlvX1b4374SwVi19akENZsFCmi8RG3AhiquFSpeTjtxtC93rIL1DFoLd69sWoJcPTbh0XXFv2esuVqJmP9eachNAw2wN7J"
-
-
-https://home.nest.com/cameras/CjZhS2Z0d3RiMTQydHJMU2R2bDg3a1BaeEpva21YWW1yaUstanBhaE9OUHZCOVZldWM4QzF6TUESFmVrZjNxUGFoUDlCb09oYkJvamhmT3caNlZJWHNyaU10dHQ4Z0VBX0VSSy1LZEhaNFpiN2k3Yy1CWHMtaGxLMzNZbVI0T0tQWk01T3UzQQ?auth=1754l4cwfwHXnMoxb_C6XRYnHugwOZMfHwnaMkUNG7FcRywGCJl2TQgxfREBLIAW4iFwBlvEjTvcCP_waFZUqkJ1eYPi7CZkhhwMe5H9fKJ47jcHy4ZwQl9d2FYYXRf2aIenFDhkOzM9pybLWMJVO2CtbQL7izDgEWuCdDY4DYzin65kEEWmHSlLMe9tZBUR0D7rfSIz-IrZxw
-'''
-
-
 
 import requests
 import http.client
