@@ -1,20 +1,28 @@
 #!/usr/bin/env python
 
-ACCESS_KEY= "AKIAJVR3DFLUAJLFZKWA"
-SECRET_KEY = "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"
-
+import yaml
 import json
 import boto3
 from pprint import pprint
 import time
 
-REGION="us-east-1"
 
-BUCKET = 'e88-final'
+#Load Configs
+with open("config.yml", 'r') as ymlfile:
+    cfg = yaml.load(ymlfile)
 
-QUEUE = 'https://sqs.us-east-1.amazonaws.com/095045241365/new_s3_event'
+#AWS Info
 
-SQS = boto3.client(service_name='sqs', region_name=REGION, aws_access_key_id=ACCESS_KEY,
+ACCESS_KEY= cfg['aws']['access_key']
+SECRET_KEY = cfg['aws']['secret_key']
+
+S3_REGION= cfg['aws']['region']
+
+BUCKET = cfg['aws']['bucket']
+
+QUEUE = cfg['aws']['queue']
+
+SQS = boto3.client(service_name='sqs', region_name=S3_REGION, aws_access_key_id=ACCESS_KEY,
 						  aws_secret_access_key=SECRET_KEY)
 
 
@@ -23,12 +31,12 @@ credentials = {"aws_access_key_id" : ACCESS_KEY, "aws_session_access_key" : SECR
 token = "c.tTwDnxdnToHZrpWnhk5iH4q3JEebhvbeLqitUnsbyBgSupaWkrYlvX1b4374SwVi19akENZsFCmi8RG3AhiquFSpeTjtxtC93rIL1DFoLd69sWoJcPTbh0XXFv2esuVqJmP9eachNAw2wN7J"
 
 headers = {'authorization': "Bearer {0}".format(token)}
-DB = boto3.resource(service_name='dynamodb', region_name=REGION, aws_access_key_id=ACCESS_KEY,
+DB = boto3.resource(service_name='dynamodb', region_name=S3_REGION, aws_access_key_id=ACCESS_KEY,
 						  aws_secret_access_key=SECRET_KEY)
 
 # creates a data stream to recieve data from producer
 def create_stream(device_name, stream_name, media_type, hours):
-	kinesis = boto3.client(service_name = 'kinesis', region_name = REGION, aws_access_key_id = ACCESS_KEY,
+	kinesis = boto3.client(service_name = 'kinesis', region_name = S3_REGION, aws_access_key_id = ACCESS_KEY,
                   aws_secret_access_key = SECRET_KEY)
 	response = kinesis.create_stream(DeviceName = device_name,streamName = stream_name, MediaType=media_type, DataRetentionInHOurs=hours)
 	return response['Labels']
@@ -41,7 +49,7 @@ def create_stream(device_name, stream_name, media_type, hours):
 #submits image to aws recognition
 def rekonize(bucket, key, max_labels):
 	image = {'Bucket': bucket, 'Name': key}
-	rek = boto3.client(service_name='rekognition', region_name=REGION, aws_access_key_id=ACCESS_KEY,
+	rek = boto3.client(service_name='rekognition', region_name=S3_REGION, aws_access_key_id=ACCESS_KEY,
 					   aws_secret_access_key=SECRET_KEY)
 
 	response = rek.detect_labels(Image = {'S3Object' : image}, MaxLabels = max_labels )
@@ -107,8 +115,9 @@ def poll_SQS():
 
 def main(verbose=False):
 	while True:
+		#polls SQS until new item recieved
 		bucket, key = poll_SQS()
-		#send to aws recognition
+		#send image to aws recognition
 		response = rekonize(bucket, key, 10)
 		labels = response['Labels']
 		db_index(image = key, bucket=bucket, labels =labels, verbose=True)

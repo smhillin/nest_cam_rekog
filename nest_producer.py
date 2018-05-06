@@ -1,26 +1,34 @@
 
+
+import yaml
 import requests
 import http.client
 from urllib.parse import urlparse
-import time
 import boto3
 import datetime
 import hashlib
 import time
 
+#Load Configs
+with open("config.yml", 'r') as ymlfile:
+    cfg = yaml.load(ymlfile)
+
 #AWS Info
-ACCESS_KEY= "AKIAJVR3DFLUAJLFZKWA"
-SECRET_KEY = "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"
+ACCESS_KEY= cfg['aws']['access_key']
+SECRET_KEY = cfg['aws']['secret_key']
 
 #S3 Info
-S3_REGION="us-east-1"
-BUCKET = 'e88-final'
+S3_REGION= cfg['aws']['region']
+BUCKET = cfg['aws']['bucket']
+
+
 credentials = {"aws_access_key_id" : ACCESS_KEY, "aws_session_access_key" : SECRET_KEY}
 
 
 #Nest Cam Info
-TOKEN = "c.tTwDnxdnToHZrpWnhk5iH4q3JEebhvbeLqitUnsbyBgSupaWkrYlvX1b4374SwVi19akENZsFCmi8RG3AhiquFSpeTjtxtC93rIL1DFoLd69sWoJcPTbh0XXFv2esuVqJmP9eachNAw2wN7J"
-DEVICE_ID= "aKftwtb142trLSdvl87kPZxJokmXYmriK-jpahONPvB9Veuc8C1zMA"
+TOKEN = cfg['nest']['token']
+DEVICE_ID= cfg['nest']['device_id']
+
 HEADERS =  {'authorization': "Bearer {0}".format(TOKEN)}
 
 #returns live stream url
