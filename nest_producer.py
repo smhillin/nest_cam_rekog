@@ -85,7 +85,7 @@ def get_snap(s3):
     name = hash.hexdigest()
     img_name = 'snap_' + name + '.jpg'
     s3.put_object(Bucket=BUCKET, Key=img_name, Body=img_data)
-    print('oh snap!')
+    print('oh snapshot taken!')
 
 
 
@@ -102,6 +102,6 @@ if __name__ == "__main__":
     #create connection s3 bucket to store snaps
     s3 = boto3.client(service_name ='s3', region_name = S3_REGION, aws_access_key_id = ACCESS_KEY,
                       aws_secret_access_key = SECRET_KEY)
-    snap_producer(1, 5, s3)
+    snap_producer(1, 25, s3)
 
 

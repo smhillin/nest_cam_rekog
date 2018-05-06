@@ -22,15 +22,16 @@ BUCKET = cfg['aws']['bucket']
 
 QUEUE = cfg['aws']['queue']
 
+TOKEN = cfg['nest']['token']
+
 SQS = boto3.client(service_name='sqs', region_name=S3_REGION, aws_access_key_id=ACCESS_KEY,
 						  aws_secret_access_key=SECRET_KEY)
 
 
 
 credentials = {"aws_access_key_id" : ACCESS_KEY, "aws_session_access_key" : SECRET_KEY}
-token = "c.tTwDnxdnToHZrpWnhk5iH4q3JEebhvbeLqitUnsbyBgSupaWkrYlvX1b4374SwVi19akENZsFCmi8RG3AhiquFSpeTjtxtC93rIL1DFoLd69sWoJcPTbh0XXFv2esuVqJmP9eachNAw2wN7J"
 
-headers = {'authorization': "Bearer {0}".format(token)}
+headers = {'authorization': "Bearer {0}".format(TOKEN)}
 DB = boto3.resource(service_name='dynamodb', region_name=S3_REGION, aws_access_key_id=ACCESS_KEY,
 						  aws_secret_access_key=SECRET_KEY)
 
@@ -40,10 +41,6 @@ def create_stream(device_name, stream_name, media_type, hours):
                   aws_secret_access_key = SECRET_KEY)
 	response = kinesis.create_stream(DeviceName = device_name,streamName = stream_name, MediaType=media_type, DataRetentionInHOurs=hours)
 	return response['Labels']
-
-
-
-
 
 
 #submits image to aws recognition
